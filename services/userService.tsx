@@ -1,7 +1,7 @@
 import { fakerFR as faker } from "@faker-js/faker";
 import { UserSchema, User } from "@/models/userModel";
 
-export const generateUsers = (count: number = 50): User[] => {
+export const generateUsers = (count: number = 25): User[] => {
     return Array.from({ length: count }, () => {
         const firstName = faker.person.firstName();
         const lastName = faker.person.lastName();
