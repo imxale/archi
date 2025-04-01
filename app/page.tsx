@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { SiShadcnui } from "react-icons/si";
 import { RiMenuFill } from "react-icons/ri";
 import { filterUsers, generateUsers } from "@/services/userService";
+import Image from "next/image";
 
 const navigationLinks = [
     { path: "/", label: "Home" },
@@ -244,7 +245,7 @@ function UsersPage() {
                 ) : (
                     filteredUsers.map((user) => (
                         <Card key={user.id} className="flex items-center p-4">
-                            <img
+                            <Image
                                 src={user.avatar}
                                 alt={user.firstName}
                                 className="w-16 h-16 rounded-full mr-4"

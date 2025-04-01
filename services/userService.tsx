@@ -11,8 +11,8 @@ export const generateUsers = (count: number = 25): User[] => {
             firstName: firstName,
             lastName: lastName,
             email: faker.internet.email({
-                firstName,
-                lastName,
+                firstName: firstName.toLowerCase(),
+                lastName: lastName.toLowerCase(),
             }),
             phone: faker.phone.number(),
             city: faker.location.city(),
@@ -40,16 +40,14 @@ export const filterUsers = (
         const isCityMatch = filters.city
             ? user.city.toLowerCase().includes(filters.city.toLowerCase())
             : true;
-        const isAgeMatch = filters.minAge
-            ? user.age >= filters.minAge
-            : true && filters.maxAge
-            ? user.age <= filters.maxAge
-            : true;
-        const isSalaryMatch = filters.minSalary
-            ? user.salary >= filters.minSalary
-            : true && filters.maxSalary
-            ? user.salary <= filters.maxSalary
-            : true;
+
+        const isAgeMatch =
+          (filters.minAge === undefined || user.age >= filters.minAge) &&
+          (filters.maxAge === undefined || user.age <= filters.maxAge);
+
+        const isSalaryMatch =
+          (filters.minSalary === undefined || user.salary >= filters.minSalary) &&
+          (filters.maxSalary === undefined || user.salary <= filters.maxSalary);
 
         return isCityMatch && isAgeMatch && isSalaryMatch;
     });
