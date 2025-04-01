@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/services/supabaseClient';
 import { generateUsers } from '@/services/userService';
 
-export async function POST(req: NextRequest) {
+export async function POST() {
   try {
     // Supprimer tous les utilisateurs existants
     const { error: deleteError } = await supabaseAdmin.from('user').delete().gte('id', '00000000-0000-0000-0000-000000000000'); // Sécurisé pour Supabase
@@ -14,7 +14,15 @@ export async function POST(req: NextRequest) {
     if (insertError) throw insertError;
 
     return NextResponse.json({ message: 'Users reset successfully', count: newUsers.length }, { status: 200 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    let errorMessage = "An unknown error occurred";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    } else if (typeof error === "string") {
+      errorMessage = error;
+    }
+
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
